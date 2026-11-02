@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import { useChartStore } from '../store/chartStore';
 
 export function IndicatorPanel() {
   const [isOpen, setIsOpen] = useState(false);
+  // Получаем данные о видимости RSI и функцию для переключения
+  const { isRsiVisible, toggleRsi } = useChartStore();
 
   return (
     <div className="relative">
@@ -65,9 +68,23 @@ export function IndicatorPanel() {
                   Осцилляторы
                 </h4>
                 <div className="space-y-1">
-                  <div className="text-xs text-gray-500 italic py-2">
-                    Пусто - добавьте индикаторы
-                  </div>
+                  {/* 👇 КНОПКА ВКЛЮЧЕНИЯ RSI 👇 */}
+                  <button
+                    onClick={toggleRsi}
+                    className={`w-full text-left px-3 py-2 rounded text-sm transition-colors flex items-center justify-between ${
+                      isRsiVisible 
+                        ? 'bg-blue-600/20 text-blue-400' 
+                        : 'hover:bg-[#2a2e39] text-gray-300'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="text-lg">📉</span>
+                      RSI (Индекс отн. силы)
+                    </span>
+                    {isRsiVisible && (
+                      <span className="text-[10px] bg-blue-600 text-white px-1.5 py-0.5 rounded font-bold">ВКЛ</span>
+                    )}
+                  </button>
                 </div>
               </div>
 
